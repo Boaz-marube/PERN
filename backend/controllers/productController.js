@@ -36,6 +36,7 @@ export const getProduct = async (req, res) => {
         const product = await sql`
             SELECT * FROM products
             WHERE id = ${id}
+           
         `;
         if(product.length === 0){
             return res.status(404).json({error: "Product not found"})
@@ -49,10 +50,13 @@ export const getProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     const {id} = req.params
     try{
-        await sql`
+       const delProduct = await sql`
             DELETE FROM products
             WHERE id = ${id}
+            RETURNING *
         `;
+        console.log("Deleted product", delProduct[0])
+        res.status(200).json({success : true, data: delProduct[0]})
     }catch(error){
         console.error("Error in deleteProduct function",error)
         res.status(500).json({success: false,error: "Internal Server Error"})
