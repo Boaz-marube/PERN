@@ -22,7 +22,7 @@ export const aj = arcjet({
       mode: "LIVE",
       refillRate: 10,
       interval: "60s",
-      capacity: 100,
+      capacity: 10,
     }),
   ],
 });
